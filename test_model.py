@@ -69,12 +69,10 @@ def test_model_loading():
         ]
         
         text = processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-        image_inputs, video_inputs = processor.process_vision_info(messages)
         
         inputs = processor(
             text=[text],
-            images=image_inputs,
-            videos=video_inputs,
+            images=[test_image],
             return_tensors="pt"
         ).to(device)
         

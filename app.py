@@ -127,7 +127,7 @@ def transcribe_handwriting(image, model, processor, device):
         # Prepare the prompt for handwriting transcription
         prompt = "Please transcribe the handwritten text in this image accurately. Output the text in markdown format, preserving any formatting like lists, headers, or emphasis that you can identify from the handwriting."
         
-        # Process the image and text
+        # Process the image and text using the correct Qwen2.5VL API
         messages = [
             {
                 "role": "user",
@@ -140,13 +140,11 @@ def transcribe_handwriting(image, model, processor, device):
         
         # Apply chat template
         text = processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-        image_inputs, video_inputs = processor.process_vision_info(messages)
         
-        # Prepare inputs
+        # Prepare inputs using the correct method
         inputs = processor(
             text=[text],
-            images=image_inputs,
-            videos=video_inputs,
+            images=[image],
             return_tensors="pt"
         ).to(device)
         
