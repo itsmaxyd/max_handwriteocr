@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  ocr-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.simple
+    ports:
+      - "8501:8501"
+    environment:
+      - CUDA_VISIBLE_DEVICES=0  # Set to empty string for CPU-only mode
+    volumes:
+      - ./models:/app/models  # Optional: cache models locally
+    restart: unless-stopped
+
+  # CPU-only version
+  ocr-app-cpu:
+    build:
+      context: .
+      dockerfile: Dockerfile.simple
+    ports:
+      - "8502:8501"
+    environment:
+      - CUDA_VISIBLE_DEVICES=""
+    volumes:
+      - ./models:/app/models
+    restart: unless-stopped
+
