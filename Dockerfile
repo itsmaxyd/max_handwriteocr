@@ -1,4 +1,4 @@
-# Use Python 3.11 slim image as base
+# Lightweight Python OCR container with OpenAI GPT-4o
 FROM python:3.11-slim
 
 # Set working directory
@@ -6,31 +6,21 @@ WORKDIR /app
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    build-essential \
     curl \
-    git \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements first for better caching
+# Copy requirements and install Python dependencies
 COPY requirements.txt .
-
-# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
-COPY . .
+# Copy application script
+COPY handwrite_ocr.py .
 
-# Create a non-root user
-RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
-USER appuser
+# Make script executable
+RUN chmod +x handwrite_ocr.py
 
-# Expose port
-EXPOSE 8501
+# Create a directory for images
+RUN mkdir -p /data
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:8501/_stcore/health || exit 1
-
-# Run the application
-CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
-
+# Default to bash for interactive use
+CMD ["/bin/bash"]
