@@ -11,7 +11,6 @@ from pathlib import Path
 from PIL import Image
 from openai import OpenAI
 
-# Base64-encoded API key for basic obfuscation
 _ENCODED_KEY = "c2stcHJvai11QTJ2dGFpdzIwc1RIWlVoOEoxMzVtZzJvV0JZbEo4R1VicUpaRzJ1aTFMVFVxck84ejNCOWZJMDdnXzUwTVA0cXlGVkF1bU8xTlQzQmxia0ZKYlJEc1F0UWJRel9kUDJQVFRleXpldGw5QmlYemlhT1BxWFFPeUd3WU1QMWoya3NJeVVEdEdrUjNuUFRLeHNyQlFjaFRnbHI2WUEK"
 
 def get_api_key():
